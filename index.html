@@ -4,15 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="./style.css"> -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
+<style>
+    x-cloak{
+        display: none;
+    }
+    body{
+        background-color: #fc3;
+    }
+</style>
 <body>
     <div x-cloak x-data="{name:'Pallob'}">
         <p x-text="$store.test.data.name"></p>
         <a href="#" x-on:click="$store.test.fetchPosts()">Posts</a>
         <a href="#" x-on:click="$store.test.fetchUsers()">Users</a>
     </div>
-    <script src="./script.js"></script>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('test', {
+                data: {
+                    name:'jahid',
+                },
+
+                fetchUsers(){
+                    fetch('http://localhost:3001/users')
+                    .then(data => {
+                        return data.json();
+                    })
+                    .then(post => {
+                        console.log(post);
+                    });
+                },
+
+                fetchPosts() {
+                    fetch('http://localhost:3002/posts')
+                    .then(data => {
+                        return data.json();
+                    })
+                    .then(post => {
+                        console.log(post);
+                    });
+                },
+
+            })
+        })
+    </script>
+    <!-- <script src="./script.js"></script> -->
 </body>
 </html>
